@@ -1,0 +1,137 @@
+
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    font-family: Inter, sans-serif;
+    
+}
+.container, .about-container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+.card, .about-card, .cv-card, .login-card, .signup-card {
+    flex: 1 1 300px;
+    min-width: 280px;
+    padding: 20px;
+    border-radius: 12px;
+}
+h1, h2, h3 {
+    margin: 10px 0;
+    font-size: 1.5rem;
+}
+label {
+    font-size: 0.9rem;
+}
+input, button, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    
+    font-size: 1rem;
+}
+button {
+    cursor: pointer;
+    transition: 0.3s;
+}
+button:hover {
+    opacity: 0.9;
+}
+.navbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px;
+}
+.navbar a {
+    text-decoration: none;
+    font-weight: bold;
+}
+.navbar a:hover {
+}
+@media (max-width: 768px) {
+    .container, .about-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .card, .about-card, .cv-card, .login-card, .signup-card {
+        min-width: 90%;
+    }
+    h1 {
+        font-size: 1.2rem;
+    }
+    input, button, select, textarea {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        flex-direction: column;
+    }
+    .calendar-dates div, .calendar-days div {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+    .legend div {
+        font-size: 0.7rem;
+    }
+}
+.cv-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+.cv-card {
+    flex: 1 1 300px;
+    min-width: 280px;
+    padding: 20px;
+    border-radius: 12px;
+}
+.cv-card img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.about-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+.about-card {
+    flex: 1 1 300px;
+    min-width: 280px;
+    margin-bottom: 20px;
+}
+.calendar {
+    width: 100%;
+    overflow-x: auto;
+}
+.calendar-dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+.calendar-dates div {
+    padding: 10px;
+    text-align: center;
+    font-size: 0.8rem;
+}
+.login-card, .signup-card {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+}
+.login-card input, .signup-card input {
+    margin-bottom: 15px;
+}

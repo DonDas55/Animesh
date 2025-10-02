@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Page</title>
+    <link rel="stylesheet" href="style.css" />
+
+<style>
+body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f4f4f9; margin:0; }
+
+/* Navbar */
+nav { background:#764ba2; color:white; display:flex; justify-content:space-between; align-items:center; padding:15px 30px; box-shadow:0 2px 8px rgba(0,0,0,0.2);}
+nav h2 { font-size:20px;}
+nav ul { list-style:none; display:flex; }
+nav ul li { margin-left:20px; }
+nav ul li a { color:white; text-decoration:none; font-weight:bold; transition:0.3s; }
+nav ul li a:hover { color:#ffeb3b; }
+
+/* Sections */
+section { padding:40px 20px; text-align:center; }
+#home { background:linear-gradient(to right, #667eea, #764ba2); color:white; }
+#home h1 { margin-bottom:20px; }
+#home p { font-size:18px; }
+button.logout { padding:10px 20px; border:none; border-radius:8px; background:#ff4b5c; color:white; cursor:pointer; margin-top:15px;}
+button.logout:hover { background:#ff1e2e; }
+
+/* Employee Form */
+#employeeForm { background:#fff; padding:20px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1); max-width:800px; margin:20px auto; text-align:left; }
+#employeeForm h3 { text-align:center; margin-bottom:20px; color:#764ba2; }
+#employeeForm input, #employeeForm textarea, #employeeForm select { width:100%; padding:8px; margin:5px 0 15px 0; border-radius:5px; border:1px solid #ccc; }
+#employeeForm button { padding:10px 20px; border:none; border-radius:8px; background:#764ba2; color:white; cursor:pointer; display:block; margin:auto; }
+#employeeForm button:hover { background:#667eea; }
+
+/* CV Cards */
+#cvContainer { display:flex; flex-wrap:wrap; justify-content:center; }
+.cv-card { width:600px; background:#fff; margin:20px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1); padding:20px; text-align:left; position:relative; }
+.cv-card h2 { color:#764ba2; margin-bottom:10px; }
+.cv-card img { width:100px; height:100px; border-radius:50%; float:right; object-fit:cover; margin-left:10px; }
+
+/* CV Sections */
+.cv-card p { margin:5px 0; line-height:1.4; }
+.cv-section { margin-bottom:10px; }
+.cv-section strong { display:inline-block; width:180px; }
+
+/* Edit/Delete Buttons */
+.cv-card button { padding:5px 10px; border:none; border-radius:5px; cursor:pointer; margin-right:5px; }
+.cv-card .edit { background:#2196F3; color:white; }
+.cv-card .delete { background:#f44336; color:white; }
+.cv-card .edit:hover { background:#0b7dda; }
+.cv-card .delete:hover { background:#d32f2f; }
+
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+<h2>INDUSTRIAL ENTERPRISE</h2>
+<ul>
+<li><a href="#home">Home</a></li>
+<li><a href="#employeeDetails">Employee Details</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</nav>
+
+<!-- Home Section -->
+<section id="home">
+<h1 id="welcomeMessage">Welcome!</h1>
+<p>You have successfully logged in.</p>
+<button class="logout" onclick="logout()">Logout</button>
+</section>
+
+<!-- Employee Details Section -->
+<section id="employeeDetails">
+<h2>Employee Details</h2>
+
+<!-- Employee Form -->
+<div id="employeeForm">
+<h3>Add / Edit Employee</h3>
+<input type="text" id="empName" placeholder="NAME">
+<input type="text" id="empFather" placeholder="FATHER'S NAME">
+<textarea id="empAddress" placeholder="PERMANENT ADDRESS: VILL, P.O, P.S, SUB DIV, DIST, WEST BANGAL, PIN"></textarea>
+<input type="date" id="empDOB" placeholder="DATE OF BIRTH">
+<input type="text" id="empNationality" placeholder="NATIONALITY">
+<select id="empSex">
+  <option value="">SEX</option>
+  <option value="Male">Male</option>
+  <option value="Female">Female</option>
+</select>
+<input type="text" id="empReligion" placeholder="RELIGION">
+<input type="text" id="empMarital" placeholder="MARITAL STATUS">
+<input type="text" id="empCaste" placeholder="CASTE">
+<input type="text" id="empMobile" placeholder="MOBILE NO">
+<input type="email" id="empEmail" placeholder="EMAIL ID">
+<input type="text" id="empLanguage" placeholder="LANGUAGE KNOWN">
+<textarea id="empEdu" placeholder="EDUCATIONAL QUALIFICATION"></textarea>
+<textarea id="empTech" placeholder="TECHNICAL QUALIFICATION"></textarea>
+<textarea id="empOther" placeholder="OTHER QUALIFICATION"></textarea>
+<textarea id="empDeclaration" placeholder="DECLARATION: Place"></textarea>
+<input type="file" id="empImage" accept="image/*">
+<button id="addUpdateBtn" onclick="addOrUpdateEmployee()">Add Employee</button>
+</div>
+
+<!-- CV Display -->
+<div id="cvContainer"></div>
+</section>
+
+<section id="about">
+<h1>ABOUT</h1>
+
+<div class="about-container">
+  <!-- Salary Calculator Card -->
+  <div class="about-card">
+    <form id="aboutCalcForm" onsubmit="return false;">
+      <div class="field"><label>Festival leave (days)</label><input id="aboutFestivalDays" type="number" value="0"/></div>
+      <div class="field"><label>Festival leave amount / day</label><input id="aboutFestivalRate" type="number" value="437"/></div>
+      <div class="field"><label>Normal working days</label><input id="aboutWorkDays" type="number" value="0"/></div>
+      <div class="field"><label>Normal working amount / day</label><input id="aboutWorkRate" type="number" value="437"/></div>
+      <div class="field"><label>Over time hours</label><input id="aboutOtHours" type="number" value="0"/></div>
+      <div class="field"><label>Over time amount / hour</label><input id="aboutOtRate" type="number" value="109.25"/></div>
+      <div class="field"><label>Tax (fixed)</label><input id="aboutTaxFixed" type="number" value="110"/></div>
+    </form>
+    <div class="result" style="margin-top:20px;">
+      <div class="line"><div class="muted">Basic salary</div><div id="aboutBasic" class="big">₹0.00</div></div>
+      <div class="line"><div class="muted">HRA</div><div id="aboutHra" class="big">₹0.00</div></div>
+      <div class="line"><div class="muted">Festival pay</div><div id="aboutFestival" class="big">₹0.00</div></div>
+      <div class="line"><div class="muted">Overtime pay</div><div id="aboutOvertime" class="big">₹0.00</div></div>
+      <div class="line"><div class="muted">Gross</div><div id="aboutGross" class="big">₹0.00</div></div>
+      <div class="line"><div class="muted">EPFO</div><div id="aboutEpfo" class="big">₹0.00</div></div>
+      <div class="line"><div class="muted">ESIC</div><div id="aboutEsic" class="big">₹0.00</div></div>
+      <div class="line"><div class="muted">Tax</div><div id="aboutTax" class="big">₹110.00</div></div>
+      <div class="line"><div class="muted">Net</div><div id="aboutNet" class="big">₹0.00</div></div>
+    </div>
+  </div>
+
+  <!-- Calendar Card -->
+  <div class="about-card">
+    <div class="attendance-count">Total Attended: <span id="aboutAttendedCount">0</span></div>
+    <div class="calendar">
+      <div class="calendar-header">
+        <button id="aboutPrevMonth">&lt;</button>
+        <h2 id="aboutMonthYear"></h2>
+        <button id="aboutNextMonth">&gt;</button>
+      </div>
+      <div class="calendar-days">
+        <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+      </div>
+      <div class="calendar-dates" id="aboutCalendarDates"></div>
+    </div>
+    <div class="legend">
+      <div><span style="background:#a5d6a7"></span> Normal Working Day</div>
+      <div><span style="background:#ffd54f"></span> Festival Holiday</div>
+      <div><span style="background:pink"></span> Festival Worked (OT)</div>
+      <div><span style="background:#4CAF50"></span> Attended</div>
+      <div><span style="background:#ff8a80"></span> Offday (thu)</div>
+    </div>
+  </div>
+</div>
+
+<style>
+.about-container { width:100%; max-width:1000px; display:flex; flex-wrap:wrap; gap:20px; justify-content: center; }
+.about-card { background:#ffffff; border-radius:12px; padding:20px; border:1px solid rgba(255,255,255,0.03); flex:1 1 400px; min-width:360px; box-shadow:0 8px 30px rgba(2,6,23,0.7); }
+.field{margin-bottom:12px;text-align: left;}
+input[type=number]{width:100%;padding:10px;border-radius:8px;border:1px solid #00000;background:#000000;color:#ffffff;font-size:15px;}
+.line{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;background:#000000;color: #ffffff;}
+.big{font-weight:700;font-size:18px;}
+.muted{color:#ffffff;}
+.calendar { width:100%; border:1px solid #ccc; border-radius:10px; padding:20px; background:#fff; margin-top:20px; }
+.calendar-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.calendar-header button { background-color: #007BFF; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; }
+.calendar-header button:hover { background-color:#0056b3; }
+.calendar-days, .calendar-dates { display:grid; grid-template-columns:repeat(7,1fr); text-align:center; }
+.calendar-days div { font-weight:bold; margin-bottom:5px; }
+.calendar-dates div { padding:10px; margin:2px; border-radius:5px; cursor:pointer; }
+.calendar-dates div.today { background-color:#007BFF; color:white; }
+.calendar-dates div.working-day { background-color:#a5d6a7; }
+.calendar-dates div.attended { background-color:#4CAF50 !important; color:white; font-weight:bold; }
+.calendar-dates div.holiday { background-color:#ffd54f; color:#000; font-weight:bold; }
+.calendar-dates div.festival-worked { background-color:pink !important; color:#000; font-weight:bold; }
+.calendar-dates div.offday { background-color:#ff8a80; cursor:default; }
+.attendance-count { margin-bottom:20px; font-size:18px; font-weight:bold; color:#6ee7b7; }
+.legend { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
+.legend div { display:flex; align-items:center; gap:5px; font-size:14px; }
+.legend span { width:15px; height:15px; display:inline-block; border-radius:3px; }
+</style>
+
+<script>
+const qs=id=>document.getElementById(id);
+const fm=new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR'});
+
+function parseAbout(id){return Number(qs(id).value)||0;}
+function calcAboutSalary(){
+  const basic=parseAbout('aboutWorkDays')*parseAbout('aboutWorkRate');
+  const festivalPay=parseAbout('aboutFestivalDays')*parseAbout('aboutFestivalRate');
+  const hra=(basic+festivalPay)*0.05;
+  const otPay=parseAbout('aboutOtHours')*parseAbout('aboutOtRate');
+  const gross=basic+festivalPay+hra+otPay;
+  const epfo=(basic+festivalPay)*0.12;
+  const esic=gross*0.0075;
+  const net=gross-epfo-esic-parseAbout('aboutTaxFixed');
+  qs('aboutBasic').textContent=fm.format(basic);
+  qs('aboutFestival').textContent=fm.format(festivalPay);
+  qs('aboutHra').textContent=fm.format(hra);
+  qs('aboutOvertime').textContent=fm.format(otPay);
+  qs('aboutGross').textContent=fm.format(gross);
+  qs('aboutEpfo').textContent=fm.format(epfo);
+  qs('aboutEsic').textContent = fm.format(esic);
+  qs('aboutTax').textContent = fm.format(parseAbout('aboutTaxFixed'));
+  qs('aboutNet').textContent = fm.format(net);
+}
+
+// Initial calculation
+calcAboutSalary();
+
+// Calendar variables
+let today = new Date();
+let aboutCurrentMonth = today.getMonth();
+let aboutCurrentYear = today.getFullYear();
+const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const holidays = ['2025-01-23','2025-03-14','2025-03-31','2025-05-01','2025-06-07','2025-08-15','2025-09-30','2025-10-01','2025-10-02','2025-10-06','2025-10-21','2025-12-25','2026-01-23'];
+let aboutAttendance = new Set();
+let aboutFestivalWorked = new Set();
+
+function saveAboutAttendance() {
+    const key = `aboutAttendance-${aboutCurrentYear}-${aboutCurrentMonth}`;
+    const data = {attendance:[...aboutAttendance], festivalWorked:[...aboutFestivalWorked]};
+    localStorage.setItem(key, JSON.stringify(data));
+    updateAboutCounts();
+}
+
+function loadAboutAttendance() {
+    const key = `aboutAttendance-${aboutCurrentYear}-${aboutCurrentMonth}`;
+    const data = JSON.parse(localStorage.getItem(key) || '{}');
+    aboutAttendance = new Set(data.attendance || []);
+    aboutFestivalWorked = new Set(data.festivalWorked || []);
+}
+
+function updateAboutCounts() {
+    qs('aboutAttendedCount').textContent = aboutAttendance.size;
+    qs('aboutWorkDays').value = aboutAttendance.size;
+    const totalFest = holidays.filter(d => {
+        const dt = new Date(d);
+        return dt.getMonth() === aboutCurrentMonth && dt.getFullYear() === aboutCurrentYear;
+    }).length;
+    qs('aboutFestivalDays').value = totalFest;
+    qs('aboutOtHours').value = aboutFestivalWorked.size * 8;
+    calcAboutSalary();
+}
+
+function renderAboutCalendar(month, year) {
+    loadAboutAttendance();
+    const container = qs('aboutCalendarDates');
+    container.innerHTML = '';
+    qs('aboutMonthYear').textContent = `${months[month]} ${year}`;
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    for (let i = 0; i < firstDay; i++) container.appendChild(document.createElement('div'));
+
+    for (let d = 1; d <= daysInMonth; d++) {
+        const cell = document.createElement('div');
+        cell.textContent = d;
+        const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const cellDate = new Date(year, month, d);
+
+        if (holidays.includes(dateStr)) {
+            cell.classList.add('holiday');
+            if (aboutFestivalWorked.has(dateStr)) cell.classList.add('festival-worked');
+            cell.addEventListener('click', () => {
+                if (aboutFestivalWorked.has(dateStr)) {
+                    aboutFestivalWorked.delete(dateStr);
+                    cell.classList.remove('festival-worked');
+                } else {
+                    aboutFestivalWorked.add(dateStr);
+                    cell.classList.add('festival-worked');
+                }
+                saveAboutAttendance();
+            });
+        } else if (cellDate.getDay() === 4) {
+            cell.classList.add('offday'); // Thursday off
+        } else {
+            cell.classList.add('working-day');
+            if (aboutAttendance.has(dateStr)) cell.classList.add('attended');
+            cell.addEventListener('click', () => {
+                if (aboutAttendance.has(dateStr)) { aboutAttendance.delete(dateStr); cell.classList.remove('attended'); }
+                else { aboutAttendance.add(dateStr); cell.classList.add('attended'); }
+                saveAboutAttendance();
+            });
+        }
+        container.appendChild(cell);
+    }
+    updateAboutCounts();
+}
+
+// Month navigation
+qs('aboutPrevMonth').addEventListener('click', () => {
+    aboutCurrentMonth--;
+    if (aboutCurrentMonth < 0) { aboutCurrentMonth = 11; aboutCurrentYear--; }
+    renderAboutCalendar(aboutCurrentMonth, aboutCurrentYear);
+});
+qs('aboutNextMonth').addEventListener('click', () => {
+    aboutCurrentMonth++;
+    if (aboutCurrentMonth > 11) { aboutCurrentMonth = 0; aboutCurrentYear++; }
+    renderAboutCalendar(aboutCurrentMonth, aboutCurrentYear);
+});
+
+// Initial render
+renderAboutCalendar(aboutCurrentMonth, aboutCurrentYear);
+</script>
+<!-- Contact Section -->
+<section id="contact">
+<h2>Contact</h2>
+<p>Email: info@example.com</p>
+<p>Phone: +1 234 567 890</p>
+</section>
+
+<script>
+// Check login
+const user = JSON.parse(localStorage.getItem('loggedInUser'));
+if(!user) window.location.href = 'index.html';
+else document.getElementById('welcomeMessage').innerText = `Welcome, ${user.name}!`;
+
+function logout() {
+  localStorage.removeItem('loggedInUser');
+  window.location.href = 'index.html';
+}
+
+// Employees
+let employees = JSON.parse(localStorage.getItem('employees')) || [];
+let editIndex = null;
+
+// Add or Update Employee
+function addOrUpdateEmployee() {
+  const emp = {
+    name: document.getElementById('empName').value.trim(),
+    father: document.getElementById('empFather').value.trim(),
+    address: document.getElementById('empAddress').value.trim(),
+    dob: document.getElementById('empDOB').value,
+    nationality: document.getElementById('empNationality').value.trim(),
+    sex: document.getElementById('empSex').value,
+    religion: document.getElementById('empReligion').value.trim(),
+    marital: document.getElementById('empMarital').value.trim(),
+    caste: document.getElementById('empCaste').value.trim(),
+    mobile: document.getElementById('empMobile').value.trim(),
+    email: document.getElementById('empEmail').value.trim(),
+    language: document.getElementById('empLanguage').value.trim(),
+    edu: document.getElementById('empEdu').value.trim(),
+    tech: document.getElementById('empTech').value.trim(),
+    other: document.getElementById('empOther').value.trim(),
+    declaration: document.getElementById('empDeclaration').value.trim(),
+    image: ''
+  };
+
+  // Handle image
+  const imgFile = document.getElementById('empImage').files[0];
+  if(imgFile){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      emp.image = e.target.result;
+      saveEmployee(emp);
+    }
+    reader.readAsDataURL(imgFile);
+  } else {
+    saveEmployee(emp);
+  }
+}
+
+// Save employee
+function saveEmployee(emp){
+  if(editIndex !== null){
+    employees[editIndex] = emp;
+    editIndex = null;
+    document.getElementById('addUpdateBtn').innerText = 'Add Employee';
+  } else {
+    employees.push(emp);
+  }
+  localStorage.setItem('employees', JSON.stringify(employees));
+  resetForm();
+  renderCVs();
+}
+
+// Reset form
+function resetForm(){
+  const form = document.getElementById('employeeForm');
+  form.reset();}
+
+// Render CVs
+function renderCVs() {
+  const container = document.getElementById('cvContainer');
+  container.innerHTML = '';
+
+  employees.forEach((emp, index) => {
+    const div = document.createElement('div');
+    div.className = 'cv-card';
+    div.innerHTML = `
+      ${emp.image ? `<img src="${emp.image}" alt="Profile Image">` : ''}
+      <h2>${emp.name}</h2>
+      <div class="cv-section"><strong>Father's Name:</strong> ${emp.father}</div>
+      <div class="cv-section"><strong>Address:</strong> ${emp.address}</div>
+      <div class="cv-section"><strong>Date of Birth:</strong> ${emp.dob}</div>
+      <div class="cv-section"><strong>Nationality:</strong> ${emp.nationality}</div>
+      <div class="cv-section"><strong>Sex:</strong> ${emp.sex}</div>
+      <div class="cv-section"><strong>Religion:</strong> ${emp.religion}</div>
+      <div class="cv-section"><strong>Marital Status:</strong> ${emp.marital}</div>
+      <div class="cv-section"><strong>Caste:</strong> ${emp.caste}</div>
+      <div class="cv-section"><strong>Mobile No:</strong> ${emp.mobile}</div>
+      <div class="cv-section"><strong>Email ID:</strong> ${emp.email}</div>
+      <div class="cv-section"><strong>Language Known:</strong> ${emp.language}</div>
+      <div class="cv-section"><strong>Educational Qualification:</strong> ${emp.edu}</div>
+      <div class="cv-section"><strong>Technical Qualification:</strong> ${emp.tech}</div>
+      <div class="cv-section"><strong>Other Qualification:</strong> ${emp.other}</div>
+      <div class="cv-section"><strong>Declaration:</strong> ${emp.declaration}</div>
+      <button class="edit" onclick="editEmployee(${index})">Edit</button>
+      <button class="delete" onclick="deleteEmployee(${index})">Delete</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// Edit employee
+function editEmployee(index){
+  const emp = employees[index];
+  document.getElementById('empName').value = emp.name;
+  document.getElementById('empFather').value = emp.father;
+  document.getElementById('empAddress').value = emp.address;
+  document.getElementById('empDOB').value = emp.dob;
+  document.getElementById('empNationality').value = emp.nationality;
+  document.getElementById('empSex').value = emp.sex;
+  document.getElementById('empReligion').value = emp.religion;
+  document.getElementById('empMarital').value = emp.marital;
+  document.getElementById('empCaste').value = emp.caste;
+  document.getElementById('empMobile').value = emp.mobile;
+  document.getElementById('empEmail').value = emp.email;
+  document.getElementById('empLanguage').value = emp.language;
+  document.getElementById('empEdu').value = emp.edu;
+  document.getElementById('empTech').value = emp.tech;
+  document.getElementById('empOther').value = emp.other;
+  document.getElementById('empDeclaration').value = emp.declaration;
+  editIndex = index;
+  document.getElementById('addUpdateBtn').innerText = 'Update Employee';
+}
+const formDiv = document.getElementById('employeeForm');
+
+// Show form only if no employees exist initially
+if(employees.length === 0){
+  formDiv.style.display = 'block';
+} else {
+  formDiv.style.display = 'none';
+}
+
+// In saveEmployee(), hide form after submission
+function saveEmployee(emp){
+  if(editIndex !== null){
+    employees[editIndex] = emp;
+    editIndex = null;
+    document.getElementById('addUpdateBtn').innerText = 'Add Employee';
+  } else {
+    employees.push(emp);
+  }
+  localStorage.setItem('employees', JSON.stringify(employees));
+
+  // Reset and hide form after adding
+  resetForm();
+  formDiv.style.display = 'none';
+
+  renderCVs();
+}
+
+// Edit employee: show form when editing
+function editEmployee(index){
+  const emp = employees[index];
+  document.getElementById('empName').value = emp.name;
+  document.getElementById('empFather').value = emp.father;
+  document.getElementById('empAddress').value = emp.address;
+  document.getElementById('empDOB').value = emp.dob;
+  document.getElementById('empNationality').value = emp.nationality;
+  document.getElementById('empSex').value = emp.sex;
+  document.getElementById('empReligion').value = emp.religion;
+  document.getElementById('empMarital').value = emp.marital;
+  document.getElementById('empCaste').value = emp.caste;
+  document.getElementById('empMobile').value = emp.mobile;
+  document.getElementById('empEmail').value = emp.email;
+  document.getElementById('empLanguage').value = emp.language;
+  document.getElementById('empEdu').value = emp.edu;
+  document.getElementById('empTech').value = emp.tech;
+  document.getElementById('empOther').value = emp.other;
+  document.getElementById('empDeclaration').value = emp.declaration;
+  editIndex = index;
+  document.getElementById('addUpdateBtn').innerText = 'Update Employee';
+
+  // Show form while editing
+  formDiv.style.display = 'block';
+}
+// Delete employee
+function deleteEmployee(index){
+  if(confirm('Are you sure you want to delete this employee?')){
+    employees.splice(index,1);
+    localStorage.setItem('employees', JSON.stringify(employees));
+    renderCVs();
+  }
+}
+
+// Initial render
+renderCVs();
+</script>
+</body>
+</html>

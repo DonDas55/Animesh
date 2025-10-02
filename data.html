@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #4CAF50; color: white; }
+        button { padding: 5px 10px; margin-right: 5px; cursor: pointer; border: none; border-radius: 5px; }
+        .edit { background: #2196F3; color: white; }
+        .delete { background: #f44336; color: white; }
+        h2 { color: #333; }
+        #editForm { display: none; margin-top: 20px; padding: 10px; background: #fff; border: 1px solid #ccc; border-radius: 10px; width: 300px; }
+        #editForm input { width: 100%; padding: 8px; margin: 5px 0; }
+        #editForm button { width: 100%; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <h2>Registered Users</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="userTable"></tbody>
+    </table>
+
+    <!-- Edit Form -->
+    <div id="editForm">
+        <h3>Edit User</h3>
+        <input type="text" id="editName" placeholder="Full Name">
+        <input type="email" id="editEmail" placeholder="Email" disabled>
+        <input type="text" id="editPassword" placeholder="Password">
+        <button onclick="saveEdit()">Save Changes</button>
+        <button onclick="cancelEdit()" style="background:#ccc;color:#000;">Cancel</button>
+    </div>
+
+    <script>
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let editIndex = null;
+
+        function renderTable() {
+            const table = document.getElementById('userTable');
+            table.innerHTML = '';
+
+            users.forEach((user, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.password}</td>
+                    <td>
+                        <button class="edit" onclick="editUser(${index})">Edit</button>
+                        <button class="delete" onclick="deleteUser(${index})">Delete</button>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+        }
+
+        function editUser(index) {
+            editIndex = index;
+            document.getElementById('editName').value = users[index].name;
+            document.getElementById('editEmail').value = users[index].email;
+            document.getElementById('editPassword').value = users[index].password;
+            document.getElementById('editForm').style.display = 'block';
+        }
+
+        function saveEdit() {
+            const newName = document.getElementById('editName').value.trim();
+            const newPassword = document.getElementById('editPassword').value.trim();
+
+            if(newName === '' || newPassword === '') {
+                alert('Name and Password cannot be empty!');
+                return;
+            }
+
+            users[editIndex].name = newName;
+            users[editIndex].password = newPassword;
+            localStorage.setItem('users', JSON.stringify(users));
+
+            document.getElementById('editForm').style.display = 'none';
+            renderTable();
+        }
+
+        function cancelEdit() {
+            document.getElementById('editForm').style.display = 'none';
+        }
+
+        function deleteUser(index) {
+            if(confirm('Are you sure you want to delete this user?')) {
+                users.splice(index, 1);
+                localStorage.setItem('users', JSON.stringify(users));
+                renderTable();
+            }
+        }
+
+        renderTable();
+    </script>
+</body>
+</html>
